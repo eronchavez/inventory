@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -14,7 +15,7 @@ class ItemController extends Controller
     {
         //
         $items = Item::all();
-        return view("items.index",compact($items));
+        return view("items.index",compact("items"));
     }
 
     /**
@@ -35,14 +36,17 @@ class ItemController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'lastname' => 'required',
+                'quantity' => 'required',
+                 'price' => 'required'
             ]
         );
 
 
         Item::create([
+
         'name' => $request->name,
-        'lastname' => $request->lastname,
+        'quantity' => $request->quantity,
+        'price' => $request->price
 
         
     ]);
@@ -65,6 +69,10 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         //
+        return view('items.edit',compact('item'));
+
+        
+
     }
 
     /**
@@ -73,6 +81,7 @@ class ItemController extends Controller
     public function update(Request $request, Item $item)
     {
         //
+        $item = Item::find($item);
     }
 
     /**
