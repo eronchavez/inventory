@@ -1,12 +1,8 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create</title>
-</head>
-<body>
+@extends('layouts.app')
+@section('title','Create item')
 
 
+@section('content')
     @if ($errors->any())
         <div>
             <ul>
@@ -17,14 +13,19 @@
         </div>
     @endif
 
+    <h1 class"h1">CREATE ITEM</h1>
     
     <form action="{{ route('items.store') }}" method="POST">
-    @csrf
-    NAME: <input type="text" name="name" placeholder="NAME"> <br> <br>
-    QUANTITY: <input type="number" name="quantity" placeholder="QUANTITY"> <br> <br>
-    PRICE: <input type="number" name="price" placeholder="PRICE"> <br>
-    <input type="submit" value="Submit">
-</form>
+        @csrf
+        <label > Name:</label>
+        <input class="form-control" type="text" name="name" placeholder="NAME"> <br> <br>
+        <label for="">Quantity:</label>
+        <input class="form-control" type="number" name="quantity" placeholder="QUANTITY"> <br> <br>
+        <label >Price: </label>
+        <input class="form-control" type="number" name="price" placeholder="PRICE"> <br>
+        <input type="submit" value="Submit" class="btn btn-primary" > <br> <br>
+    </form>
 
-</body>
-</html>
+    <button type="button" class="btn btn-success" onclick="window.location='{{ route('items.index') }}'">Back to list </button></td>
+
+@endsection

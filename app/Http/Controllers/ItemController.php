@@ -61,6 +61,7 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         //
+        return view('items.show',compact('item'));
     }
 
     /**
@@ -80,8 +81,21 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
-        $item = Item::find($item);
+
+        $validated = $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'quantity' => 'nullable|integer|min:0',
+                'price' => 'nullable|numeric|min:0'
+            ]
+        );
+
+        $validated['quantity'] = $validated['quantity'] ?? 0;
+        $validated['price'] = $validated['price'] ?? 0;
+
+        $item->update($validated);
+        
+        return redirect()->route('items.index')->with('success','Item updated successfully!');
     }
 
     /**
@@ -90,5 +104,8 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         //
+        $item->delete();
+
+        return redirect()->route('items.index')->with('success','Item deleted successfully!');
     }
 }
