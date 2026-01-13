@@ -70,6 +70,7 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         //
+        $this->authorize('update', $item);
         return view('items.edit',compact('item'));
 
         
