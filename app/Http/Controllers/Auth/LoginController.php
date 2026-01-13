@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -17,19 +18,19 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $reqeust->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
 
         ]);
 
-        if(Auth::attemp($credentials))
+        if(Auth::attempt($credentials))
             {
                 $request->session()->regenerate();
                 return redirect()->intended('/items');
             }
 
-        return bac()->withErrors([
+        return back()->withErrors([
 
             'email' => 'Invalid Credentials',
         ]);
@@ -41,7 +42,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        $request->session()->invalidate();
         $request->session()->invalidate();
 
         return redirect()->route('login');
