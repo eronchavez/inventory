@@ -47,5 +47,13 @@
     
     <button type="button"  class="btn btn-success"  onclick="window.location='{{ route('items.create')}}'">ADD NEW ITEM</button>
 
+    <form action="{{ route('logout')}}" method="POST" style="display:inline;">
+                @csrf
+                @method('POST')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to logout?')">Logout</button>
+    </form>
+
+    
+
     
 @endsection
