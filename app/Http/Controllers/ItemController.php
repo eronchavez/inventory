@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreItemRequest; 
 
 class ItemController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // Fetch all items from database
         $items = Item::all();
-        return view("items.index",compact("items"));
+
+        // Pass data to the view
+        return view("items.index", compact("items"));
     }
 
     /**
@@ -23,36 +25,29 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        // Just return the create form
         return view("items.create");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
-        //
-        $request->validate(
-            [
-                'name' => 'required',
-                'quantity' => 'required',
-                 'price' => 'required'
-            ]
-        );
+      
+        // Use Item::class because the item does NOT exist yet
+        $this->authorize('create', Item::class);
 
-
+      
         Item::create([
-
-        'name' => $request->name,
-        'quantity' => $request->quantity,
-        'price' => $request->price
+            'name'     => $request->name,
+            'quantity' => $request->quantity,
+            'price'    => $request->price
+        ]);
 
         
-    ]);
-
-    return redirect()->route("items.index");
-
+        return redirect()->route("items.index")
+                         ->with('success', 'Item created successfully!');
     }
 
     /**
@@ -60,8 +55,8 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
-        return view('items.show',compact('item'));
+       
+        return view('items.show', compact('item'));
     }
 
     /**
@@ -69,34 +64,24 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        //
+     
         $this->authorize('update', $item);
-        return view('items.edit',compact('item'));
 
-        
-
+        return view('items.edit', compact('item'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Item $item)
+    public function update(UpdateItemRequest $request, Item $item)
     {
+       
+        $this->authorize('update', $item);
 
-        $validated = $request->validate(
-            [
-                'name' => 'required|string|max:255',
-                'quantity' => 'nullable|integer|min:0',
-                'price' => 'nullable|numeric|min:0'
-            ]
-        );
-
-        $validated['quantity'] = $validated['quantity'] ?? 0;
-        $validated['price'] = $validated['price'] ?? 0;
-
-        $item->update($validated);
+        $item->update($request->validated());
         
-        return redirect()->route('items.index')->with('success','Item updated successfully!');
+        return redirect()->route('items.index')
+                         ->with('success', 'Item updated successfully!');
     }
 
     /**
@@ -104,9 +89,13 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+       
+        $this->authorize('delete', $item);
+
+       
         $item->delete();
 
-        return redirect()->route('items.index')->with('success','Item deleted successfully!');
+        return redirect()->route('items.index')
+                         ->with('success', 'Item deleted successfully!');
     }
 }
