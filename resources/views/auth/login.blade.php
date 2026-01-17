@@ -8,7 +8,11 @@
         @csrf 
         <input type="email" name="email" placeholder="Email"> <br> <br>
         <input type="password" name="password" placeholder="Password"> <br> <br>
-        <button type="submit" class="btn btn-primary" >Login</button>
+        <div style="display: flex; gap: 10px;"> 
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a class="btn btn-success">Signup</a>
+        </div>
     </form>
+  
 
 @endsection
