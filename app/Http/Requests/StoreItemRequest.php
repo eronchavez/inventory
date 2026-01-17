@@ -6,12 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreItemRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
+   /**
+     * 
+     * Decide if this user is allowed to SUBMIT the create form.
+     * This runs BEFORE the controller.
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->role === 'admin' && 'manager';
     }
 
     /**

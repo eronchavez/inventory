@@ -6,7 +6,7 @@ use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest; 
 use App\Http\Requests\UpdateItemRequest;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests; // Para walang error pag gumagamit ng auth()
 
 
 
@@ -41,7 +41,7 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
       
-      
+
         Item::create($request->validated());
 
         
