@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest; 
+use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+
+
 
 class ItemController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -35,15 +41,8 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
       
-        // Use Item::class because the item does NOT exist yet
-        $this->authorize('create', Item::class);
-
       
-        Item::create([
-            'name'     => $request->name,
-            'quantity' => $request->quantity,
-            'price'    => $request->price
-        ]);
+        Item::create($request->validated());
 
         
         return redirect()->route("items.index")

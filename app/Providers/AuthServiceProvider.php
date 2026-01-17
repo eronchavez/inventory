@@ -15,7 +15,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        \App\Models\Item::class => \App\Policies\ItemPolicy::class,
+        // In laymans term:
+        //for the Item model, use ItemPolicy
+       Item::class => ItemPolicy::class,
     ];
 
 
@@ -27,9 +29,5 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Example of a Gate if needed
-        Gate::define('manage-inventory', function ($user) {
-            return $user->role === 'admin';
-        });
     }
 }

@@ -4,8 +4,9 @@
 @section('content')
      <h1 class"h1">UPDATE ITEM</h1>
     
-    <form action="{{ route('items.store') }}" method="POST">
+    <form action="{{ route('items.update' , $item->id) }}" method="POST">
         @csrf
+        @method('PUT')
         <label > Name:</label>
         <input class="form-control" type="text" name="name" placeholder="NAME"> <br> <br>
         <label for="">Quantity:</label>
